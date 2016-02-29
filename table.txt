@@ -1,0 +1,25 @@
+CREATE TABLE users(
+login varchar (30) NOT NULL,
+pass varchar (25) NOT NULL,
+email varchar (25) NOT NULL,
+last_activity date NOT NULL,
+registration_date date  NOT NULL,
+gender boolean NOT NULL,
+birthday_date date NOT NULL,
+first_name varchar (40) NOT NULL,
+last_name varchar (40) NOT NULL
+);
+
+CREATE TABLE movie(
+
+title text NOT NULL,
+director varchar (30) NOT NULL,
+country varchar (25) NOT NULL,
+pub_year integer NOT NULL,
+rank real NOT NULL,
+duration integer NOT NULL,
+category varchar (25) NOT NULL
+
+);
+--INSERT INTO movie (title, director, country, pub_year, rank, duration, category, poster)
+--VALUES ('Пятница', 'Евгений Шелякин', 'Россия', '2016', 7.23, 90, 'комедия', 'st.kp.yandex.net/images/film_iphone/iphone360_843821.jpg');
