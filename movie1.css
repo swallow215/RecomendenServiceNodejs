@@ -1,0 +1,21 @@
+#header {
+
+height: 130px;
+padding: 20px;	
+padding-right: 100px;
+background: slateblue;
+}
+#login{
+height:130px;
+background:slateblue;	
+padding-top: 40px;	
+padding-left: 250px;
+}
+#table{	
+
+background-image:url('http://2.bp.blogspot.com/-k7vHLs_HE7Q/VWKd4l2bmsI/AAAAAAAACbk/uvTxjtFZ1Kw/s1600/1.jpg');
+padding:30px;
+text-align:center;
+font-size:20px;
+color:mediumvioletred;
+}
