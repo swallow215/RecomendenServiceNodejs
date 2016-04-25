@@ -5,7 +5,7 @@ var pg = require('pg'),
       
       
     var server = new http.Server(),  
-        connectionString = "postgres://postgres:postgres@localhost:5432/market";  
+        connectionString = "postgres://postgres:postgres@localhost:5432/allinfo";  
 		
       
     server.listen(8000, '127.0.0.1');  
@@ -22,16 +22,16 @@ var pg = require('pg'),
       console.log({ success: false, data: err}); 
    } 
 
-     var query = client.query("SELECT * FROM movie ORDER BY id ASC");
+     var query = client.query("SELECT m.id, m.title, m.poster, m.year, m.rank, COUNT(id) FROM movie AS m JOIN likes AS l ON l.movie_id = m.id GROUP BY (m.id);");
 	 query.on('row', function(row) { 
          film_list.push(row);
 		 });
 		
 		 
 		 query.on('end', function() {
-		  var row_length = 3;
+		  var row_length = 1;
 		  new_results = []
-		 for (var i=0; i<3; i++){
+		 for (var i=0; i<film_list.length; i++){
 		   new_results.push(film_list[i])
 		   console.log(new_results);
 		 }
@@ -39,12 +39,9 @@ var pg = require('pg'),
          return res.end(
 		 tmpl(  
                     {  
-                        'film_list':[ new_results,
-						             new_results,
-									 new_results,
-									 new_results,
-									 new_results
-									],
+                        'film_list':new_results,
+									  
+									
                          'title':'Фильмы'									
               
                    }  
@@ -54,3 +51,4 @@ var pg = require('pg'),
 	 });
    });
 });
+ 
