@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+<meta charset="UTF-8">
+<title>{{ title }}</title>
+    <link href="https://yastatic.net/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+     </head>
+		<body class="container">
+		<ul class ="nav nav-tabs">
+        <li><a href="/" data-toggle="tab">Главная</a></li>
+        <li><a href="/users" data-toggle="tab">Пользователи</a></li>
+        <li><a href="/popular" data-toggle="tab">Популярное</a></li>  
+		<div class="col-md-offset-10">
+		
+		{% if username %}
+                <a href="/logout"><button type="submit" class="btn btn-info id="button">{{ username }} Выйти</button></a>
+            {% else %}
+                <a href="/login"><button type="submit" class="btn btn-info id="button">Войти</button></a>
+            {% endif %}
+		
+		</div>
+    </ul>
+    <div class="col-md-8 col-md-offset-2">
+		<h1>{{ movie.title }}</h1>
+			<div class="row">
+    <div class="col-md-5">
+		<img width="300" src="{{ movie.poster }}">
+	</div>
+		<div class="col-md-3">
+        <div class="row">
+                  <ul class="list-unstyled">
+                   <li>Год: ({{ movie.year }})</li>
+                   <li>Рейтинг: {{ movie.rank }}</li>
+                   <li>IMDB: {{ movie.imdb_position }}</li>
+				   </ul>
+                </div>
+                <div class="row">
+                    Описание:
+                </div>
+
+            </div>
+        </div>
+         <div class="row">
+            <h3>Похожие фильмы:</h3>
+            {% for alike_movies in movie.alike_movies %}
+            <div class="col-md-3">
+                <h4>
+                    {{ alike_movies.title }}
+                </h4>
+                <img src="{{ alike_movies.poster }}" height="200"> 
+				
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+	<div class="row comments">
+
+        </div>
+</body>
+</html>

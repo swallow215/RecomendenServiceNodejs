@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Друзья</title>
+    <link href="https://yastatic.net/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="col-md-9">
+      <ul class ="nav nav-tabs">
+        <li><a href="/" data-toggle="tab">Главная</a></li>
+        <li class ="active"><a href="/users" data-toggle="tab">Пользователи</a></li>
+        <li><a href="/popular" data-toggle="tab">Популярное</a></li>
+		<li class ="active"><a href="/urec" data-toggle="tab">Лрузья</a></li>		
+		<div class="col-md-offset-10">
+		
+		{% if username %}
+                <a href="/logout"><button type="submit" class="btn btn-info id="button">{{ username }} Выйти</button></a>
+            {% else %}
+                <a href="/login"><button type="submit" class="btn btn-info id="button">Войти</button></a>
+            {% endif %}
+		
+		</div>
+    </ul>
+
+<div class="col-md-8 col-md-offset-2">
+    <h1>Возможные друзья</h1>
+    <table class="table">
+        {% for user in user_list %}
+        <tr>
+            <td>
+                <a href="/users/{{ user.id }}">
+                    <h2>{{ user.name }}</h2>
+                </a>
+            </td>
+            <td>
+                Общих: {{ user.l1 }}
+            </td>
+            <td>
+                Разных: {{ user.diff }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+</body>
+</html>

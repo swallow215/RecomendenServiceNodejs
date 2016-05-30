@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+<meta charset="UTF-8">
+<title>{{ title }}</title>
+<link href="https://yastatic.net/bootstrap/3.3.6/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+
+     </head>
+	 <script>
+    var a;
+    function run(){
+        var filmSelectors = document.getElementsByClassName('film-selector')
+        for (var i=0;i<filmSelectors.length;i++){
+            filmSelectors[i].onchange = function(event){
+                var row = event.target.parentNode.parentNode.parentNode.parentNode;
+                var filmId = parseInt(row.id.split('-')[1]);
+                var filmTitle = event.target.parentNode.parentNode.parentNode.childNodes[1].childNodes[1].childNodes[1].childNodes[1].innerText;
+                var xhr = new XMLHttpRequest()
+                var body = 'id=' + encodeURIComponent(filmId) +
+                            '&value=' + encodeURIComponent(event.target.value);
+                xhr.open('POST','/likes')
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                xhr.send(body);
+                xhr.onreadystatechange = function(){
+                    if (this.readyState != 4) return;
+                    alert( this.responseText );
+                }
+                console.log(body, filmTitle)
+            }
+        }
+    }
+</script>
+<body class="container" onload="run()">
+      <div align="center" class="col-md-9">
+      <ul class ="nav nav-tabs">
+        <li class ="active"><a href="/" data-toggle="tab">Главная</a></li>
+        <li><a href="/users" data-toggle="tab">Пользователи</a></li>
+        <li><a href="/popular" data-toggle="tab">Популярное</a></li>  
+		<div class="col-md-offset-10">
+		
+		{% if username %}
+                <a href="/logout"><button type="submit" class="btn btn-info id="button">{{ username }} Выйти</button></a>
+            {% else %}
+                <a href="/login"><button type="submit" class="btn btn-info id="button">Войти</button></a>
+            {% endif %}
+		
+		</div>
+    </ul>
+	
+	<div>
+    <h1>{{ title }}</h1>
+    <table class="table">
+        {% for movie in film_list %}
+        <tr id="movie-{{movie.id}}">
+		
+            <td>
+                <a href="/movie/{{ movie.id }}"><img width="150" src="{{ movie.poster }}"></a>
+            </td>
+            <td>
+               <div class="row">
+                    <div class="col-md-8">
+                        <a href="/movie/{{ movie.id }}">
+                            <h4>{{ movie.title }}</h4>
+                        </a>
+                    </div>
+                </div>
+			</td>
+			<td>
+				 <div class="row">
+                    <div class="col-md-4">
+                        {% if username %}
+                            <select class="form-control film-selector">
+                                <option value="0.0" {% if film.rating == 0.0 %}selected="selected"{% endif %}>Не смотрел</option>
+                                <option value="1.0" {% if film.rating == 1.0 %}selected="selected"{% endif %}>1.0</option>
+                                <option value="2.0" {% if film.rating == 2.0 %}selected="selected"{% endif %}>2.0</option>
+                                <option value="3.0" {% if film.rating == 3.0 %}selected="selected"{% endif %}>3.0</option>
+                                <option value="4.0" {% if film.rating == 4.0 %}selected="selected"{% endif %}>4.0</option>
+                                <option value="5.0" {% if film.rating == 5.0 %}selected="selected"{% endif %}>5.0</option>
+                                <option value="6.0" {% if film.rating == 6.0 %}selected="selected"{% endif %}>6.0</option>
+                                <option value="7.0" {% if film.rating == 7.0 %}selected="selected"{% endif %}>7.0</option>
+                                <option value="8.0" {% if film.rating == 8.0 %}selected="selected"{% endif %}>8.0</option>
+                                <option value="9.0" {% if film.rating == 9.0 %}selected="selected"{% endif %}>9.0</option>
+                                <option value="10.0" {% if film.rating == 10.0 %}selected="selected"{% endif %}>10.0</option>
+                            </select>
+                        {% else %}
+                            <h5>Для оценки фильмов необходима авторизация</h5>
+                        {% endif %}
+                    </div>
+                </div>
+            </td>
+            <td>
+                Рейтинг: {{ movie.rank }}
+                <br>
+				({{ movie.year }})
+				<br>
+                IMDB: {{ movie.position }}{{ movie.imdb_position }}
+				<br>
+				Likes:{{movie.count}}
+				<br>
+				<button href="/like" class="btn btn-lg btn-block" type="submit"">
+                 <span class="glyphicon glyphicon-heart"></span></button>
+				 
+            </td>
+			
+        </tr>
+        {% endfor %}
+    </table>
+    </div>	
+	
+
+</body>
+</html>
