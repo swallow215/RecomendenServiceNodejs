@@ -9,7 +9,7 @@ var http = require('http'),
 var router = express.Router();
 
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-var connectionString = "postgres://postgres:postgres@localhost:5432/market";
+var connectionString = "postgres://postgres:postgres@localhost:5432/allinfo";
 	
 
   
@@ -73,14 +73,8 @@ router.get('/movie/:movie_id', function(req, res){
         }
 
         // SQL Query > Select Data
-        var query = client.query("SELECT * FROM movie WHERE id=" + id)
-		'SELECT m.id, m.title, m.year, m.rank, m.poster, ARRAY_TO_JSON(ARRAY_AGG(m2.*)) as alike_movies ' +
-        'FROM movie as m '+
-        'JOIN movie_distance AS md ON md.movie1_id = m.id '+ // AND m1.l1 >0
-        'JOIN movie AS m2 ON md.movie2_id = m2.id AND m2.id!=m.id '+
-        'WHERE m.id =' + id +
-        ' GROUP BY m.id;';
-console.log();
+        var query = client.query("SELECT * FROM movie WHERE id=" + id);
+
         
         // Stream results back one row at a time
         query.on('row', function(row) {
