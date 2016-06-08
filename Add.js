@@ -73,7 +73,10 @@ router.get('/movie/:movie_id', function(req, res){
         }
 
         // SQL Query > Select Data
-        var query = client.query("SELECT * FROM movie WHERE id=" + id);
+        var query = client.query(" SELECT m.id, m.title, m.year, m.rank, m.poster, ARRAY_TO_JSON(ARRAY_AGG(rec_movie.*)) as alike_movies " +
+        " FROM movie as m " + " JOIN movie_distance AS md ON md.movie1_id = m.id " + 
+        " JOIN movie AS rec_movie ON md.movie2_id = rec_movie.id AND rec_movie.id!=m.id " +
+        " WHERE m.id = " + id + " GROUP BY m.id;");
 
         
         // Stream results back one row at a time
